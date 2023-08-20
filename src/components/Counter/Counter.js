@@ -19,7 +19,7 @@ function Counter() {
   }, []);
 
   React.useEffect(() => {
-    window.localStorage.setItem('saved-count', count);
+    window.localStorage.setItem('saved-count', String(count));
   }, [count]);
 
   return (
