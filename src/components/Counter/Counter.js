@@ -3,6 +3,8 @@ import React from 'react';
 
 function Counter() {
   const [count, setCount] = React.useState(() => {
+    if (typeof(window) === 'undefined') return 0;
+
     return Number(
       window.localStorage.getItem('saved-count') || 0
     );
