@@ -2,20 +2,15 @@
 import React from 'react';
 
 function Counter() {
-  // SSR、クライアントともに常にゼロ → ハイドレーションの不一致が生じない
-  const [count, setCount] = React.useState(0);
+  // SSR、クライアントともに常にnull → ハイドレーションの不一致が生じない
+  const [count, setCount] = React.useState(null);
 
   // useEffect を使い、クライアントのレンダリング後のみで実行させる
   React.useEffect(() => {
     const savedValue = window.localStorage.getItem('saved-count');
 
-    // SSR では localStorage が存在しないため、null が返る
-    if (savedValue === null) {
-      return;
-    }
-
-    // クライアントで localStorage から値を取得
-    setCount(Number(savedValue));
+    // 値が読み込めたらその値を(クライアント)。でなければ0を設定(SSR)
+    setCount(savedValue ? Number(savedValue) : 0);
   }, []);
 
   React.useEffect(() => {
@@ -27,7 +22,9 @@ function Counter() {
       className="count-btn"
       onClick={() => setCount(count + 1)}
     >
-      Count: {count}
+      Count: {' ' /* number があれば値を、無ければスピナーを表示 */}
+      {typeof count === 'number' ? count : '🌀'}
+      {/*{typeof count === 'number' ? count : <Spinner />}*/}
     </button>
   );
 }
