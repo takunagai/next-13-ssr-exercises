@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Spinner from '../Spinner';
 
 function Counter() {
   // SSR、クライアントともに常にnull → ハイドレーションの不一致が生じない
@@ -23,8 +24,7 @@ function Counter() {
       onClick={() => setCount(count + 1)}
     >
       Count: {' ' /* number があれば値を、無ければスピナーを表示 */}
-      {typeof count === 'number' ? count : '🌀'}
-      {/*{typeof count === 'number' ? count : <Spinner />}*/}
+      {typeof count === 'number' ? count : <Spinner />}
     </button>
   );
 }
